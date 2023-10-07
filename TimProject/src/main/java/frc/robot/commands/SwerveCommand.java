@@ -6,9 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Launcher extends CommandBase {
-  /** Creates a new Laucher. */
-  public Launcher() {
+public class SwerveCommand extends CommandBase {
+  /** Creates a new SwerveCommand. */
+  public SwerveCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
