@@ -13,6 +13,45 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+// RoboRio and CAN ports
+
+public static final class CAN {
+  // FRC DEFAULTS
+  public static final int PDP = 1; // for rev
+  public static final int PCM1 = 2; // for rev
+
+  //TODO MrL - copy code from 2023 for Swerve CAN assignments.
+
+
+}
+
+// PWM assignments on the Rio
+public static final class PWM {
+  // public static final int INTAKE = 0;
+}
+
+// Digital IO on the RIO
+public static final class DigitalIO {
+  // public static final int IntakeLightGate = 0;
+  // public static final int ClawLightgate = 1;
+}
+
+public static final class AnalogIn {
+  // public static final int MAGAZINE_ANGLE = 0;
+}
+
+// PWM assignments on the Rio
+public static final class PCM1 {
+  // static final int <name> = 0;
+
+}
+
+// if we use a second PCM
+public static final class PCM2 {
+}
+
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
