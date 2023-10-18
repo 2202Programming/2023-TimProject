@@ -6,12 +6,24 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Launcher extends SubsystemBase {
-  /** Creates a new Launcher. */
-  public Launcher() {}
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+
+public class Launcher extends SubsystemBase { 
+
+  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+
 }
