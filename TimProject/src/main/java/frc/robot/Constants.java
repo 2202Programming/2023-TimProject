@@ -30,6 +30,49 @@ public static final class CAN {
 public static final class PWM {
   // public static final int INTAKE = 0;
 }
+public static final class WheelOffsets {
+  public final double CC_FL_OFFSET;
+  public final double CC_BL_OFFSET;
+  public final double CC_FR_OFFSET;
+  public final double CC_BR_OFFSET;
+
+  public WheelOffsets(double FL, double BL, double FR, double BR) {
+    this.CC_FL_OFFSET = FL;
+    this.CC_BL_OFFSET = BL;
+    this.CC_FR_OFFSET = FR;
+    this.CC_BR_OFFSET = BR;
+  }
+}
+public static final class ChassisConfig {
+
+  // Kinematics model - wheel offsets from center of robot (0, 0)
+  // Left Front given below, symmetry used for others
+  public final double XwheelOffset; // meters, half of X wheelbase
+  public final double YwheelOffset; // meters, half of Y wheelbase
+
+  public final double wheelCorrectionFactor; // percent
+  public final double wheelDiameter; // meters
+  public final double kSteeringGR; // [mo-turns to 1 angle wheel turn]
+  public final double kDriveGR; // [mo-turn to 1 drive wheel turn]
+
+  public ChassisConfig(double XwheelOffset, double YwheelOffset, double wheelCorrectionFactor, double wheelDiameter,
+      double kSteeringGR,
+      double kDriveGR) {
+    this.XwheelOffset = XwheelOffset;
+    this.YwheelOffset = YwheelOffset;
+    this.wheelCorrectionFactor = wheelCorrectionFactor;
+    this.wheelDiameter = wheelDiameter * wheelCorrectionFactor;
+    this.kSteeringGR = kSteeringGR;
+    this.kDriveGR = kDriveGR;
+  }
+  
+}
+
+public static final class DriveTrain {
+  public static final WheelOffsets swerveBotOffsets = new WheelOffsets(-98.942, 91.33, -177.035, -28.215);
+    public static final ChassisConfig swerveBotChassisConfig = new ChassisConfig(10.5 / 12, 10.5 / 12, 0.995,
+        99.5 / 1000.0, 12.8, 8.14);
+}
 
 // Digital IO on the RIO
 public static final class DigitalIO {
