@@ -158,12 +158,12 @@ public class SwerveDriveTrain extends SubsystemBase {
   public final Field2d m_field = new Field2d();
 
   public SwerveDriveTrain() {
-    sensors = RobotContainer.RC().sensors;
-    photonVision = RobotContainer.RC().photonVision;
-    limelight = RobotContainer.RC().limelight;
-    watchdog = new VisionWatchdog(3.0);
+    // sensors = RobotContainer.RC().sensors;
+    // photonVision = RobotContainer.RC().photonVision;
+    // limelight = RobotContainer.RC().limelight;
+    // watchdog = new VisionWatchdog(3.0);
 
-    var MT = CANSparkMax.MotorType.kBrushless;
+    // var MT = CANSparkMax.MotorType.kBrushless;
     modules = new SwerveModuleMK3[] {
         // Front Left
         new SwerveModuleMK3(new CANSparkMax(CAN.DT_FL_DRIVE, MT), new CANSparkMax(CAN.DT_FL_ANGLE, MT),
@@ -543,15 +543,15 @@ public class SwerveDriveTrain extends SubsystemBase {
     m_pose = m_odometry.update(sensors.getRotation2d(), meas_pos);
 
     // vision  from here down
-    if (limelight != null) {
-      m_poseEstimator_ll.update(sensors.getRotation2d(), meas_pos); //this should happen every robot cycle, regardless of vision targets.
-      llPoseEstimatorUpdate();
-    }
+    // if (limelight != null) {
+    //   m_poseEstimator_ll.update(sensors.getRotation2d(), meas_pos); //this should happen every robot cycle, regardless of vision targets.
+    //   llPoseEstimatorUpdate();
+    // }
 
-    if (photonVision != null){
-      m_poseEstimator_pv.update(sensors.getRotation2d(), meas_pos); //this should happen every robot cycle, regardless of vision targets.
-      pvPoseEstimatorUpdate();
-    }
+    // if (photonVision != null){
+    //   m_poseEstimator_pv.update(sensors.getRotation2d(), meas_pos); //this should happen every robot cycle, regardless of vision targets.
+    //   pvPoseEstimatorUpdate();
+    // }
 
     //only update pose from imaging if max velocity is low enough
     //get center of robot velocity from sqrt of vX2 + vY2
@@ -561,30 +561,30 @@ public class SwerveDriveTrain extends SubsystemBase {
       return;
     }
 
-    if ((limelight != null) && (llPose != null) && (limelight.getNumApriltags() > 0)) { //just use LL for now
-      Pose2d prev_m_Pose = m_pose;
-      if(visionPoseEnabled) {
-        watchdog.update(prev_m_Pose, llPose);
-        if (visionPoseUsingRotation) {
-          setPose(llPose); //update robot pose from swervedriveposeestimator, include vision-based rotation
-        }
-        else{
-          setPose(new Pose2d(llPose.getTranslation(), prev_m_Pose.getRotation())); //update robot translation from swervedriveposeestimator, do not update rotation
-        }
-      }
-      x_diff = Math.abs(prev_m_Pose.getX() -  m_pose.getX());
-      y_diff = Math.abs(prev_m_Pose.getY() - m_pose.getY());
-      yaw_diff = Math.abs(prev_m_Pose.getRotation().getDegrees() - m_pose.getRotation().getDegrees());
-      // vision pose updating NTs
-      nt_x_diff.setDouble(x_diff);
-      nt_y_diff.setDouble(y_diff);
-      nt_yaw_diff.setDouble(yaw_diff);
-    }
+    // if ((limelight != null) && (llPose != null) && (limelight.getNumApriltags() > 0)) { //just use LL for now
+    //   Pose2d prev_m_Pose = m_pose;
+    //   if(visionPoseEnabled) {
+    //     watchdog.update(prev_m_Pose, llPose);
+    //     if (visionPoseUsingRotation) {
+    //       setPose(llPose); //update robot pose from swervedriveposeestimator, include vision-based rotation
+    //     }
+    //     else{
+    //       setPose(new Pose2d(llPose.getTranslation(), prev_m_Pose.getRotation())); //update robot translation from swervedriveposeestimator, do not update rotation
+    //     }
+    //   }
+    //   x_diff = Math.abs(prev_m_Pose.getX() -  m_pose.getX());
+    //   y_diff = Math.abs(prev_m_Pose.getY() - m_pose.getY());
+    //   yaw_diff = Math.abs(prev_m_Pose.getRotation().getDegrees() - m_pose.getRotation().getDegrees());
+    //   // vision pose updating NTs
+    //   nt_x_diff.setDouble(x_diff);
+    //   nt_y_diff.setDouble(y_diff);
+    //   nt_yaw_diff.setDouble(yaw_diff);
+    // }
     
 
     // WIP use other poseEstimator
-    if (limelight != null && photonVision != null)
-    {
+    // if (limelight != null && photonVision != null)
+    // {
       /*
       if (photonVision.hasAprilTarget() && pvPose != null){
         Pose2d prev_m_Pose = m_pose;
@@ -608,25 +608,25 @@ public class SwerveDriveTrain extends SubsystemBase {
 
   void pvPoseEstimatorUpdate(){
     
-    if (photonVision.hasAprilTarget() ) {
-      // this should happen only if we have a tag in view
-      // OK if it is run only intermittanly.  Uses latency of vision pose.
-      m_poseEstimator_pv.addVisionMeasurement(photonVision.getPoseEstimate().getFirst(), photonVision.getVisionTimestamp());
+  //   if (photonVision.hasAprilTarget() ) {
+  //     // this should happen only if we have a tag in view
+  //     // OK if it is run only intermittanly.  Uses latency of vision pose.
+  //     m_poseEstimator_pv.addVisionMeasurement(photonVision.getPoseEstimate().getFirst(), photonVision.getVisionTimestamp());
 
-      pvPose = m_poseEstimator_pv.getEstimatedPosition();
-    }
-  }
+  //     pvPose = m_poseEstimator_pv.getEstimatedPosition();
+  //   }
+  // }
 
-  void llPoseEstimatorUpdate(){
+  // void llPoseEstimatorUpdate(){
     
-    if (limelight.getNumApriltags() > 0) {
-      // this should happen only if we have a tag in view
-      // OK if it is run only intermittanly.  Uses latency of vision pose.
-      m_poseEstimator_ll.addVisionMeasurement(limelight.getBluePose(), limelight.getVisionTimestamp());
+  //   if (limelight.getNumApriltags() > 0) {
+  //     // this should happen only if we have a tag in view
+  //     // OK if it is run only intermittanly.  Uses latency of vision pose.
+  //     m_poseEstimator_ll.addVisionMeasurement(limelight.getBluePose(), limelight.getVisionTimestamp());
 
-      llPose = m_poseEstimator_ll.getEstimatedPosition();
-    }
-  }
+  //     llPose = m_poseEstimator_ll.getEstimatedPosition();
+  //   }
+  // }
 
 public Pose2d getLLEstimate() {
   return new Pose2d(llPose.getTranslation(), llPose.getRotation());
@@ -657,7 +657,6 @@ public void disableVisionPose(){
 }
 
 }
-// TODO: Move to a TEST/Tuning command - DPL 2/21/22
 // private void pidTuning() { //if drivetrain tuning
 
 // // read PID coefficients from SmartDashboard if tuning drivetrain
