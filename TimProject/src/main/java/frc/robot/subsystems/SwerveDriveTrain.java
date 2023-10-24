@@ -40,20 +40,20 @@ import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.ChassisConfig;
 import frc.robot.Constants.DriveTrain;
-import frc.robot.Constants.NTStrings;
+// import frc.robot.Constants.NTStrings;
 import frc.robot.Constants.WheelOffsets;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Sensors_Subsystem.EncoderID;
-import frc.robot.util.ModMath;
-import frc.robot.util.PoseMath;
-import frc.robot.util.VisionWatchdog;
+// import frc.robot.subsystems.Sensors_Subsystem.EncoderID;
+// import frc.robot.util.ModMath;
+// import frc.robot.util.PoseMath;
+// import frc.robot.util.VisionWatchdog;
 import frc.robot.Constants.ChassisInversionSpecs;
 
 public class SwerveDriveTrain extends SubsystemBase {
 
   // cc is the chassis config for all our pathing math
-  private final ChassisConfig cc = RobotContainer.RC().RobotSpecs.getChassisConfig(); // chassis config
-  private final WheelOffsets wc = RobotContainer.RC().RobotSpecs.getWheelOffset(); // wc = wheel config
+  private final ChassisConfig cc = RobotContainer.RC().robotSpecs.getChassisConfig(); // chassis config
+  private final WheelOffsets wc = RobotContainer.RC().robotSpecs.getWheelOffset(); // wc = wheel config
 
   /**
    *
@@ -76,7 +76,7 @@ public class SwerveDriveTrain extends SubsystemBase {
   private Pose2d m_pose_integ; // incorporates vision
 
   private double maxImagingVelocity = 2.0; //m/s
-  private VisionWatchdog watchdog;
+  // private VisionWatchdog watchdog;
 
   private SwerveModuleState[] meas_states; // measured wheel speed & angle
   private SwerveModulePosition[] meas_pos = new SwerveModulePosition[] {
@@ -87,13 +87,13 @@ public class SwerveDriveTrain extends SubsystemBase {
   };
 
   // sensors and our mk3 modules
-  private final Sensors_Subsystem sensors;
+  // private final Sensors_Subsystem sensors;
   private final SwerveModuleMK3[] modules;
 
   // used to update postion esimates
   double kTimeoffset = .1; // [s] measurement delay from photonvis TODO:measure this???
-  private final PhotonVision photonVision;
-  private final Limelight_Subsystem limelight;
+  // private final PhotonVision photonVision;
+  // private final Limelight_Subsystem limelight;
   // Network tables
   private NetworkTable table;
   private NetworkTable postionTable;
