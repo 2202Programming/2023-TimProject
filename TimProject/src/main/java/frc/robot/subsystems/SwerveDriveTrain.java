@@ -4,13 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-import com.pathplanner.lib.PathPoint;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import com.revrobotics.CANSparkMax;
+// import com.pathplanner.lib.PathConstraints;
+// import com.pathplanner.lib.PathPlanner;
+// import com.pathplanner.lib.PathPlannerTrajectory;
+// import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+// import com.pathplanner.lib.PathPoint;
+// import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+// import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.VecBuilder;
@@ -54,7 +54,6 @@ public class SwerveDriveTrain extends SubsystemBase {
   // cc is the chassis config for all our pathing math
   private final ChassisConfig cc = RobotContainer.RC().RobotSpecs.getChassisConfig(); // chassis config
   private final WheelOffsets wc = RobotContainer.RC().RobotSpecs.getWheelOffset(); // wc = wheel config
-  private final ChassisInversionSpecs is = RobotContainer.RC().robotSpecs.getChassisInversionSpecs(); // is = inversion specs
 
   /**
    *

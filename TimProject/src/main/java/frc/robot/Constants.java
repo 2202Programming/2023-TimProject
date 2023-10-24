@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import frc.robot.util.ModuleInversionSpecs;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -20,10 +20,26 @@ public static final class CAN {
   // FRC DEFAULTS
   public static final int PDP = 1; // for rev
   public static final int PCM1 = 2; // for rev
+  public static final int DT_FL_DRIVE = 20;
+  public static final int DT_FL_ANGLE = 21;
+  public static final int DT_BL_DRIVE = 22;
+  public static final int DT_BL_ANGLE = 23;
+  public static final int DT_BR_DRIVE = 24;
+  public static final int DT_BR_ANGLE = 25;
+  public static final int DT_FR_DRIVE = 26;
+  public static final int DT_FR_ANGLE = 27;
 
   //TODO MrL - copy code from 2023 for Swerve CAN assignments.
+  //Noah - Should be done
 
 
+}
+
+public static final class SubsystemConfig {
+  public final boolean HAS_DRIVETRAIN;
+  public SubsystemConfig(boolean HAS_DRIVETRAIN){
+    this.HAS_DRIVETRAIN = HAS_DRIVETRAIN;
+  }
 }
 
 // PWM assignments on the Rio
@@ -67,13 +83,31 @@ public static final class ChassisConfig {
   }
   
 }
+public static final class ChassisInversionSpecs{
+  public ModuleInversionSpecs FR;
+  public ModuleInversionSpecs FL;
+  public ModuleInversionSpecs BR;
+  public ModuleInversionSpecs BL;
+
+  public ChassisInversionSpecs(ModuleInversionSpecs FR, ModuleInversionSpecs FL, ModuleInversionSpecs BR, ModuleInversionSpecs BL){
+      this.FR = FR;
+      this.FL = FL;
+      this.BR = BR;
+      this.BL = BL;
+  }
+}
 
 public static final class DriveTrain {
   public static final WheelOffsets swerveBotOffsets = new WheelOffsets(-98.942, 91.33, -177.035, -28.215);
     public static final ChassisConfig swerveBotChassisConfig = new ChassisConfig(10.5 / 12, 10.5 / 12, 0.995,
         99.5 / 1000.0, 12.8, 8.14);
 }
-
+public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(true);
+public static final ChassisInversionSpecs swerveBotChassisInversionSpecs = new ChassisInversionSpecs(
+  new ModuleInversionSpecs(true,false,false), //FR
+  new ModuleInversionSpecs(false,false,false), //FL
+  new ModuleInversionSpecs(true,false,false), //BR
+  new ModuleInversionSpecs(false,false,false)); //BL
 // Digital IO on the RIO
 public static final class DigitalIO {
   // public static final int IntakeLightGate = 0;

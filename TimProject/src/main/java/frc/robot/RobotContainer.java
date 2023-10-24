@@ -32,6 +32,7 @@ public class RobotContainer {
     return rc;
   }
     public RobotContainer() {
+      robotSpecs = new RobotSpecs();
     //TODO MrL - add the sub-system constructors here
 
     // Configure the trigger bindings
