@@ -4,6 +4,7 @@
 
 package frc.robot;
 import frc.robot.util.ModuleInversionSpecs;
+import frc.robot.util.PIDFController;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,7 +14,9 @@ import frc.robot.util.ModuleInversionSpecs;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
+  public static final double DT = 0.02;
+  public static final double FTperM = 3.28084;
+  public static final double MperFT = 1.0 / FTperM;
 // RoboRio and CAN ports
 
 public static final class CAN {
@@ -100,7 +103,9 @@ public static final class ChassisInversionSpecs{
 public static final class DriveTrain {
   public static final WheelOffsets swerveBotOffsets = new WheelOffsets(-98.942, 91.33, -177.035, -28.215);
     public static final ChassisConfig swerveBotChassisConfig = new ChassisConfig(10.5 / 12, 10.5 / 12, 0.995,
-        99.5 / 1000.0, 12.8, 8.14);
+        99.5 / 1000.0, 12.8, 8.14); 
+        public static final PIDFController drivePIDF = new PIDFController(0.09 * FTperM, 0.0, 0.0, 0.08076 * FTperM);
+        public static final PIDFController anglePIDF = new PIDFController(0.01, 0.0, 0.0, 0.0);
 }
 public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(true);
 public static final ChassisInversionSpecs swerveBotChassisInversionSpecs = new ChassisInversionSpecs(

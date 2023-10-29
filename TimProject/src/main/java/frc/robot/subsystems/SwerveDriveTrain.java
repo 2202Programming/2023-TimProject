@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 // import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 // import com.pathplanner.lib.PathPoint;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-// import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.VecBuilder;
@@ -158,10 +158,10 @@ public class SwerveDriveTrain extends SubsystemBase {
   public final Field2d m_field = new Field2d();
 
   public SwerveDriveTrain() {
-    // sensors = RobotContainer.RC().sensors;
-    // photonVision = RobotContainer.RC().photonVision;
-    // limelight = RobotContainer.RC().limelight;
-    // watchdog = new VisionWatchdog(3.0);
+    sensors = RobotContainer.RC().sensors;
+    photonVision = RobotContainer.RC().photonVision;
+    limelight = RobotContainer.RC().limelight;
+    watchdog = new VisionWatchdog(3.0);
 
     // var MT = CANSparkMax.MotorType.kBrushless;
     modules = new SwerveModuleMK3[] {
