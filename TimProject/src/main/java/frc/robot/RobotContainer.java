@@ -11,6 +11,9 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Sensors_Subsystem;
+import frc.robot.subsystems.SwerveDriveTrain;
 import frc.robot.util.RobotSpecs;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,13 +34,22 @@ public class RobotContainer {
   public static RobotContainer RC() {
     return rc;
   }
+    //subsystems
+    public final PhotonVision photonVision;
+    public final Sensors_Subsystem sensors;
+    public final SwerveDriveTrain drivetrain;
     public RobotContainer() {
       robotSpecs = new RobotSpecs();
     //TODO MrL - add the sub-system constructors here
 
     // Configure the trigger bindings
     configureBindings();
+    
+  photonVision = null;// new PhotonVision();
+  sensors = new Sensors_Subsystem();
+  drivetrain = new SwerveDriveTrain();
   }
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the

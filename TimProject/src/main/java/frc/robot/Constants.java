@@ -31,11 +31,22 @@ public static final class CAN {
   public static final int DT_BR_ANGLE = 25;
   public static final int DT_FR_DRIVE = 26;
   public static final int DT_FR_ANGLE = 27;
+  // drive train CANCoders
+  public static final int DT_BL_CANCODER = 28;
+  public static final int DT_BR_CANCODER = 31;
+  public static final int DT_FR_CANCODER = 30;
+  public static final int DT_FL_CANCODER = 7;
+  // IMU
+  public static final int PIGEON_IMU_CAN = 60;
+
 
   //TODO MrL - copy code from 2023 for Swerve CAN assignments.
   //Noah - Should be done
 
-
+  public static final boolean BURN_FLASH = false;
+}
+public final static class NTStrings {
+  public final static String NT_Name_Position = "Position";
 }
 
 public static final class SubsystemConfig {

@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
-// import com.pathplanner.lib.PathConstraints;
-// import com.pathplanner.lib.PathPlanner;
-// import com.pathplanner.lib.PathPlannerTrajectory;
-// import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-// import com.pathplanner.lib.PathPoint;
-// import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.PathPoint;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
@@ -40,13 +40,13 @@ import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.ChassisConfig;
 import frc.robot.Constants.DriveTrain;
-// import frc.robot.Constants.NTStrings;
+import frc.robot.Constants.NTStrings;
 import frc.robot.Constants.WheelOffsets;
 import frc.robot.RobotContainer;
-// import frc.robot.subsystems.Sensors_Subsystem.EncoderID;
-// import frc.robot.util.ModMath;
-// import frc.robot.util.PoseMath;
-// import frc.robot.util.VisionWatchdog;
+import frc.robot.subsystems.Sensors_Subsystem.EncoderID;
+import frc.robot.util.ModMath;
+import frc.robot.util.PoseMath;
+import frc.robot.util.VisionWatchdog;
 import frc.robot.Constants.ChassisInversionSpecs;
 
 public class SwerveDriveTrain extends SubsystemBase {
@@ -54,7 +54,7 @@ public class SwerveDriveTrain extends SubsystemBase {
   // cc is the chassis config for all our pathing math
   private final ChassisConfig cc = RobotContainer.RC().robotSpecs.getChassisConfig(); // chassis config
   private final WheelOffsets wc = RobotContainer.RC().robotSpecs.getWheelOffset(); // wc = wheel config
-
+  private final ChassisInversionSpecs is = RobotContainer.RC().robotSpecs.getChassisInversionSpecs(); // is = inversion specs
   /**
    *
    * Modules are in the order of - Front Left, Front Right, Back Left, Back Right
@@ -76,7 +76,7 @@ public class SwerveDriveTrain extends SubsystemBase {
   private Pose2d m_pose_integ; // incorporates vision
 
   private double maxImagingVelocity = 2.0; //m/s
-  // private VisionWatchdog watchdog;
+  private VisionWatchdog watchdog;
 
   private SwerveModuleState[] meas_states; // measured wheel speed & angle
   private SwerveModulePosition[] meas_pos = new SwerveModulePosition[] {
@@ -87,12 +87,12 @@ public class SwerveDriveTrain extends SubsystemBase {
   };
 
   // sensors and our mk3 modules
-  // private final Sensors_Subsystem sensors;
+  private final Sensors_Subsystem sensors;
   private final SwerveModuleMK3[] modules;
 
   // used to update postion esimates
   double kTimeoffset = .1; // [s] measurement delay from photonvis TODO:measure this???
-  // private final PhotonVision photonVision;
+  private final PhotonVision photonVision;
   // private final Limelight_Subsystem limelight;
   // Network tables
   private NetworkTable table;
@@ -160,10 +160,10 @@ public class SwerveDriveTrain extends SubsystemBase {
   public SwerveDriveTrain() {
     sensors = RobotContainer.RC().sensors;
     photonVision = RobotContainer.RC().photonVision;
-    limelight = RobotContainer.RC().limelight;
+    // limelight = RobotContainer.RC().limelight;
     watchdog = new VisionWatchdog(3.0);
 
-    // var MT = CANSparkMax.MotorType.kBrushless;
+    var MT = CANSparkMax.MotorType.kBrushless;
     modules = new SwerveModuleMK3[] {
         // Front Left
         new SwerveModuleMK3(new CANSparkMax(CAN.DT_FL_DRIVE, MT), new CANSparkMax(CAN.DT_FL_ANGLE, MT),
@@ -408,9 +408,9 @@ public class SwerveDriveTrain extends SubsystemBase {
       // position and timestamp
       photonVision.setInitialPose(new Pair<Pose2d, Double>(pose, 0.0));
     }
-    if (limelight != null) {
-      limelight.setInitialPose(pose, 0.0);
-    }
+    // if (limelight != null) {
+    //   limelight.setInitialPose(pose, 0.0);
+    // }
   }
 
   // reset angle to be zero, but retain X and Y; takes a Rotation2d object
@@ -604,9 +604,9 @@ public class SwerveDriveTrain extends SubsystemBase {
       // }
     }
 
-  }
+  
 
-  void pvPoseEstimatorUpdate(){
+  // void pvPoseEstimatorUpdate(){
     
   //   if (photonVision.hasAprilTarget() ) {
   //     // this should happen only if we have a tag in view
