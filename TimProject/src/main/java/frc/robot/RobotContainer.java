@@ -15,6 +15,8 @@ import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Sensors_Subsystem;
 import frc.robot.subsystems.SwerveDriveTrain;
 import frc.robot.util.RobotSpecs;
+import frc.robot.commands.swerve.RobotCentricDrive;
+import frc.robot.subsystems.hid.HID_Xbox_Subsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -38,6 +40,7 @@ public class RobotContainer {
     public final PhotonVision photonVision;
     public final Sensors_Subsystem sensors;
     public final SwerveDriveTrain drivetrain;
+    public final HID_Xbox_Subsystem dc; // short for driver controls
     public RobotContainer() {
       robotSpecs = new RobotSpecs();
     //TODO MrL - add the sub-system constructors here
@@ -48,6 +51,7 @@ public class RobotContainer {
   photonVision = null;// new PhotonVision();
   sensors = new Sensors_Subsystem();
   drivetrain = new SwerveDriveTrain();
+  dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
   }
 
 
@@ -69,7 +73,12 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
+  private void driverIndividualBindings() {
+    CommandXboxController driver = dc.Driver();
 
+    // Triggers / shoulder Buttons
+    driver.leftTrigger().whileTrue(new RobotCentricDrive(drivetrain, dc));
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
