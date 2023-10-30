@@ -117,6 +117,30 @@ public static final class DriveTrain {
         99.5 / 1000.0, 12.8, 8.14); 
         public static final PIDFController drivePIDF = new PIDFController(0.09 * FTperM, 0.0, 0.0, 0.08076 * FTperM);
         public static final PIDFController anglePIDF = new PIDFController(0.01, 0.0, 0.0, 0.0);
+        public static final double kMaxSpeed = 21.0 * MperFT; // [m/s]
+        public static final double kMaxAngularSpeed = 2 * Math.PI; // [rad/s]
+}
+public static final class DriverControls {
+
+  public enum Id {
+    Driver(0), Operator(1), SwitchBoard(2), Phantom(3);
+
+    public final int value;
+
+    Id(int value) {
+      this.value = value;
+    }
+  }
+
+  public enum DriverMode {
+    Arcade(0), Tank(1), XYRot(2);
+
+    public final int value;
+
+    DriverMode(int value) {
+      this.value = value;
+    }
+  }
 }
 public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(true);
 public static final ChassisInversionSpecs swerveBotChassisInversionSpecs = new ChassisInversionSpecs(
