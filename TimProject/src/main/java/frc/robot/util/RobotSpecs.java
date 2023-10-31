@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ChassisConfig;
 import frc.robot.Constants.SubsystemConfig;
