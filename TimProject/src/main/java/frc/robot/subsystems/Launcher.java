@@ -17,15 +17,26 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Launcher extends SubsystemBase {
   /** Creates a new Launcher. */
-  public Launcher() {
-    final TalonFX back_motor = new TalonFx(CAN.BACK_MOTOR);
-    final TalonFX front_motor = new TalonFx(CAN.FRONT_MOTOR);
+  final TalonFX back_motor = new TalonFx(CAN.BACK_MOTOR);
+  final TalonFX front_motor = new TalonFx(CAN.FRONT_MOTOR);
+  final int x = 25; //values of x should always remain constant. Nothing should really change here.
 
+  final VelocityVoltage velocity = new VelocityVoltage(0,false,0,1,false); //second value should be true if we have talon fx pros, as it increases power.
+ 
+  public Launcher() {   
+  }
   
+  public void move_motor() {
+  front_motor.setControl(velocity.withVelocity(x)); //velocity is used in rotations per second.
+  back_motor.setControl(new Follower(front_motor.getDeviceID, false));
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
+
+/*things to do: 
+* Limit maximum and minimum voltage
+* Work on the pid loop information. And learn how to use pid loops
+*/

@@ -181,4 +181,7 @@ public static class PIDFController {
   public final int talon_kD = 0;
   public final int talon_kV = 0;
   }
+public static class LauncherConfiguration {
+  
+}
 }
