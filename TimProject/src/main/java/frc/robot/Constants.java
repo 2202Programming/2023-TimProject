@@ -23,6 +23,8 @@ public static final class CAN {
   // FRC DEFAULTS
   public static final int PDP = 1; // for rev
   public static final int PCM1 = 2; // for rev
+  public static final int BACK_MOTOR = 10; //Talon motor
+  public static final int FRONT_MOTOR = 11; //Talon motor
   public static final int DT_FL_DRIVE = 20;
   public static final int DT_FL_ANGLE = 21;
   public static final int DT_BL_DRIVE = 22;
@@ -171,5 +173,12 @@ public static final class PCM2 {
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+public static class PIDFController {
+  public final int talon_kP = 0; //controls for pid loops, will use in the launcher file
+  public final int talon_kI = 0;
+  public final int talon_kD = 0;
+  public final int talon_kV = 0;
   }
 }
