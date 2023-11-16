@@ -23,8 +23,9 @@ public static final class CAN {
   // FRC DEFAULTS
   public static final int PDP = 1; // for rev
   public static final int PCM1 = 2; // for rev
-  public static final int BACK_MOTOR = 10; //Talon motor
-  public static final int FRONT_MOTOR = 11; //Talon motor
+  public static final int BACK_LAUNCH_MOTOR = 10; //Talon motor
+  public static final int FRONT_LAUNCH_MOTOR = 11; //Talon motor
+  public static final int ELEVATION_ACTUATOR = 12;
   public static final int DT_FL_DRIVE = 20;
   public static final int DT_FL_ANGLE = 21;
   public static final int DT_BL_DRIVE = 22;
@@ -151,18 +152,20 @@ public static final ChassisInversionSpecs swerveBotChassisInversionSpecs = new C
   new ModuleInversionSpecs(true,false,false), //BR
   new ModuleInversionSpecs(false,false,false)); //BL
 // Digital IO on the RIO
+//nothing atm 11/15/23
 public static final class DigitalIO {
-  // public static final int IntakeLightGate = 0;
-  // public static final int ClawLightgate = 1;
 }
 
 public static final class AnalogIn {
-  // public static final int MAGAZINE_ANGLE = 0;
+  public static final int LINEAR_ACTUATOR = 0;
 }
 
+//why is there a loose wire :cry: 11/15/23 (aka ask elec - should be nothing)
 // PWM assignments on the Rio
 public static final class PCM1 {
-  // static final int <name> = 0;
+  // might need to flip numbers dependent on testing - 11/15/23
+  public static final int FRISBEE_FLIPPER_FWD= 0;
+  public static final int FRISBEE_FLIPPER_BACK = 1;
 
 }
 
@@ -182,6 +185,5 @@ public static class PIDFController {
   public final int talon_kV = 0;
   }
 public static class LauncherConfiguration {
-  
 }
 }
