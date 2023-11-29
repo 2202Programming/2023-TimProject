@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Launcher;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -16,6 +17,8 @@ import frc.robot.subsystems.Sensors_Subsystem;
 import frc.robot.subsystems.SwerveDriveTrain;
 import frc.robot.util.RobotSpecs;
 import frc.robot.commands.swerve.RobotCentricDrive;
+import frc.robot.commands.Launcher.ActivateLauncher;
+import frc.robot.commands.Launcher.DeActivateLauncher;
 import frc.robot.subsystems.hid.HID_Xbox_Subsystem;
 
 /**
@@ -42,25 +45,29 @@ public class RobotContainer {
   public static RobotContainer RC() {
     return rc;
   }
-
+  enum Bindings {
+    Real,
+    // below are testing modes, add as needed
+    Testing
+  }
   // subsystems
   public final PhotonVision photonVision;
   public final Sensors_Subsystem sensors;
   public final SwerveDriveTrain drivetrain;
+  public final Launcher launcher;
   public final HID_Xbox_Subsystem dc; // short for driver controls
 
   public RobotContainer() {
-    robotSpecs = new RobotSpecs();
+    RobotContainer.rc = this; // for singleton accesor
     // TODO MrL - add the sub-system constructors here
-
-    // Configure the trigger bindings
-    configureBindings();
-    driverIndividualBindings();
-
-    photonVision = null;// new PhotonVision();
-    sensors = new Sensors_Subsystem();
-    drivetrain = new SwerveDriveTrain();
-    dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
+        sensors = new Sensors_Subsystem();
+        drivetrain = new SwerveDriveTrain();
+        launcher = new Launcher();
+        dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
+        robotSpecs = new RobotSpecs();
+        photonVision = null;
+        configureBindings();
+        driverIndividualBindings();
   }
 
   /**
@@ -90,7 +97,8 @@ public class RobotContainer {
 
   private void driverIndividualBindings() {
     CommandXboxController driver = dc.Driver();
-
+    driver.rightTrigger().onTrue(new ActivateLauncher());
+    driver.x().onTrue(new DeActivateLauncher());
     // Triggers / shoulder Buttons
     driver.leftTrigger().whileTrue(new RobotCentricDrive(drivetrain, dc));
   }
