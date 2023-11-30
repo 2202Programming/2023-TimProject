@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
-import frc.robot.Constants.PIDFController;
 import frc.robot.Constants.PCM1;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -30,7 +29,9 @@ public class Launcher extends SubsystemBase {
   TalonFXConfiguration configs = new TalonFXConfiguration();
   final VelocityVoltage velocity = new VelocityVoltage(0,false,0,1,false); //second value should be true if we have talon fx pros, as it increases power.
 
-   //stolen numbers yay
+
+  public Launcher() {   
+       //stolen numbers yay
    configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
    configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
    configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
@@ -38,7 +39,6 @@ public class Launcher extends SubsystemBase {
    // Peak output of 8 volts
    configs.Voltage.PeakForwardVoltage = 8;
    configs.Voltage.PeakReverseVoltage = -8;
-  public Launcher() {   
     back_motor.setControl(new Follower(front_motor.getDeviceID(), false));
   }
   //[rot/sec]
