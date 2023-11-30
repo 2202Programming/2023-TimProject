@@ -29,20 +29,22 @@ public class ActivateLauncher extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    //make sure FF is retracted is false
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    new InstantCommand(() -> {
+    //new InstantCommand(() -> {
       frisbee_flipper.speed(5);
-  });
-  if(frisbee_flipper.get_speed() == 5){
-    new InstantCommand(() -> {
-      frisbee_flipper.fire();
-  });
-}
-}
+  
+    if(frisbee_flipper.get_speed() == 5){
+       frisbee_flipper.fire();
+      }
+
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
@@ -50,9 +52,6 @@ public class ActivateLauncher extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(frisbee_flipper.getFlipperStatus() == true){
-      return true;
-    }
-    return false;
-  }
+  return (frisbee_flipper.getFlipperStatus());
+      }
 }
