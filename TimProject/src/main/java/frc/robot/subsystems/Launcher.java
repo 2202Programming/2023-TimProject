@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
-import frc.robot.Constants.PIDFController;
 import frc.robot.Constants.PCM1;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -23,6 +22,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class Launcher extends SubsystemBase {
   int frisbee_flipper_timer = 0;
   double commanded_speed = 0;
+  private boolean is_open = false;
   /** Creates a new Launcher. */
   DoubleSolenoid frisbee_flipper = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PCM1.FRISBEE_FLIPPER_FWD , PCM1.FRISBEE_FLIPPER_BACK);
   final TalonFX back_motor = new TalonFX(CAN.BACK_LAUNCH_MOTOR);
@@ -64,9 +64,14 @@ public void fire(){
   }
   frisbee_flipper_timer = 5;
   frisbee_flipper.set(Value.kForward);
+  is_open = true;
 }
 public void retract(){
   frisbee_flipper.set(Value.kReverse);
+  is_open = false;
+}
+public boolean getFlipperStatus(){
+  return is_open;
 }
   @Override
   public void periodic() {

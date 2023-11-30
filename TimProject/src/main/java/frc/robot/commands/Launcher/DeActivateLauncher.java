@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CAN;
-import frc.robot.Constants.PIDFController;
 import frc.robot.subsystems.Launcher;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -23,24 +22,26 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DeActivateLauncher extends CommandBase {
   /** Creates a new DeActivateLauncher. */
+  final Launcher frisbee_flipper = RobotContainer.RC().launcher;
   public DeActivateLauncher() {
-    final Launcher frisbee_flipper = RobotContainer.RC().launcher;
-        new InstantCommand(() -> {
-            frisbee_flipper.fire();
-        });
-        new InstantCommand(() -> {
-          frisbee_flipper.speed(5);
-      });
-    }
     // Use addRequirements() here to declare subsystem dependencies.
-
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    new InstantCommand(() -> {
+      frisbee_flipper.speed(0);
+  });
+  if(frisbee_flipper.get_speed() == 0){
+    new InstantCommand(() -> {
+      frisbee_flipper.fire();
+  });
+}
+}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -49,6 +50,9 @@ public class DeActivateLauncher extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(frisbee_flipper.getFlipperStatus() == false){
+      return true;
+    }
     return false;
   }
 }
