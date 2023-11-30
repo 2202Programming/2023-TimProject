@@ -31,14 +31,14 @@ public class Launcher extends SubsystemBase {
 
 
   public Launcher() {   
-       //stolen numbers yay
-   configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
-   configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
-   configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
-   configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
-   // Peak output of 8 volts
-   configs.Voltage.PeakForwardVoltage = 8;
-   configs.Voltage.PeakReverseVoltage = -8;
+    //stolen numbers yay
+    configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
+    configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
+    configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
+    configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    // Peak output of 8 volts
+    configs.Voltage.PeakForwardVoltage = 8;
+    configs.Voltage.PeakReverseVoltage = -8;
     back_motor.setControl(new Follower(front_motor.getDeviceID(), false));
   }
   //[rot/sec]
