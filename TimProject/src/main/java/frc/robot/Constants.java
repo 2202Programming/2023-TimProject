@@ -178,12 +178,7 @@ public static final class PCM2 {
     public static final int kDriverControllerPort = 0;
   }
 
-public static class PIDFController {
-  public final int talon_kP = 0; //controls for pid loops, will use in the launcher file
-  public final int talon_kI = 0;
-  public final int talon_kD = 0;
-  public final int talon_kV = 0;
-  }
+
 public static class LauncherConfiguration {
 }
 }
