@@ -16,6 +16,7 @@ import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Sensors_Subsystem;
 import frc.robot.subsystems.SwerveDriveTrain;
 import frc.robot.util.RobotSpecs;
+import frc.robot.commands.swerve.FieldCentricDrive;
 import frc.robot.commands.swerve.RobotCentricDrive;
 import frc.robot.commands.Launcher.ActivateLauncher;
 import frc.robot.commands.Launcher.DeActivateLauncher;
@@ -62,13 +63,34 @@ public class RobotContainer {
     // TODO MrL - add the sub-system constructors here
         sensors = new Sensors_Subsystem();
         drivetrain = new SwerveDriveTrain();
-        launcher = new Launcher();
+        //launcher = new Launcher();
         dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
         robotSpecs = new RobotSpecs();
         photonVision = null;
-        configureBindings();
         driverIndividualBindings();
+        switch (robotSpecs.myRobotName) {
+          case USE_THIS:
+          launcher = new Launcher();
+            break;
+    
+          case SwerveBot:
+          launcher =null;
+            break;
+    
+          case ChadBot:
+          launcher =null;
+            break;
+    
+          case BotOnBoard: // fall through
+          case UnknownBot: // fall through
+          default:
+          launcher =null;
+            break;
+        }
+        drivetrain.setDefaultCommand(new FieldCentricDrive(drivetrain));
+        configureBindings(Bindings.Real);
   }
+  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
@@ -84,15 +106,16 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+  private void configureBindings(Bindings bindings) {
+    // some short hand to simplify bindings
+    var driver = dc.Driver();
+    var oper = dc.Operator();
+    switch(bindings){
+    case Real:
+    default:
+        driverIndividualBindings();
+        operatorIndividualBindings();
+    }
   }
 
   private void driverIndividualBindings() {
@@ -101,6 +124,9 @@ public class RobotContainer {
     driver.x().onTrue(new DeActivateLauncher());
     // Triggers / shoulder Buttons
     driver.leftTrigger().whileTrue(new RobotCentricDrive(drivetrain, dc));
+  }
+  private void operatorIndividualBindings() {
+    CommandXboxController operator = dc.Operator();
   }
 
   /**

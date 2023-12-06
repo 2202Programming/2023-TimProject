@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import frc.robot.Constants.SubsystemConfig;
 import frc.robot.util.ModuleInversionSpecs;
 import frc.robot.util.PIDFController;
 /**
@@ -52,12 +53,52 @@ public final static class NTStrings {
   public final static String NT_Name_Position = "Position";
 }
 
-public static final class SubsystemConfig {
+ public static final class SubsystemConfig {
+  public final boolean HAS_INTAKE;
+  public final boolean HAS_SHOOTER;
+  public final boolean IS_COMPETITION_BOT;
+  public final boolean HAS_MAGAZINE;
+  public final boolean HAS_CLIMBER;
+  public final boolean HAS_POSITIONER;
   public final boolean HAS_DRIVETRAIN;
-  public SubsystemConfig(boolean HAS_DRIVETRAIN){
+  public final boolean HAS_LIMELIGHT;
+      public SubsystemConfig(boolean HAS_INTAKE, boolean HAS_SHOOTER, boolean IS_COMPETITION_BOT, boolean HAS_MAGAZINE,
+      boolean HAS_CLIMBER,
+      boolean HAS_POSITIONER, boolean HAS_DRIVETRAIN, boolean HAS_LIMELIGHT) {
+    this.HAS_INTAKE = HAS_INTAKE;
+    this.HAS_SHOOTER = HAS_SHOOTER;
+    this.IS_COMPETITION_BOT = IS_COMPETITION_BOT;
+    this.HAS_MAGAZINE = HAS_MAGAZINE;
+    this.HAS_CLIMBER = HAS_CLIMBER;
+    this.HAS_POSITIONER = HAS_POSITIONER;
     this.HAS_DRIVETRAIN = HAS_DRIVETRAIN;
+    this.HAS_LIMELIGHT = HAS_LIMELIGHT;
   }
+  public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(false,false, false, false, false,      false, true, true);
+  public static final SubsystemConfig chadBotSubsystemConfig = new SubsystemConfig(true, true, false, true, true, true, true, true);
+  //2023 competitionbot
+  public static final SubsystemConfig compBotSubsystemConfig = new SubsystemConfig(true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true);
+
 }
+
+public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(false,false, false, false, false,      false, true, true);
+public static final SubsystemConfig chadBotSubsystemConfig = new SubsystemConfig(true, true, false, true, true, true, true, true);
+//2023 competitionbot
+public static final SubsystemConfig compBotSubsystemConfig = new SubsystemConfig(true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true);
 
 // PWM assignments on the Rio
 public static final class PWM {
@@ -115,13 +156,53 @@ public static final class ChassisInversionSpecs{
 }
 
 public static final class DriveTrain {
+  // motor constraints
+  public static final double motorMaxRPM = 5600; // motor limit
+
+  // Constraints on speeds enforeced in DriveTrain
+  public static final double kMaxSpeed = 21.0 * MperFT; // [m/s]
+  public static final double kMaxAngularSpeed = 2 * Math.PI; // [rad/s]
+
+  /****
+   * ### REMINDER - enable these once we have basics working
+   * // Other constraints
+   * public static final int smartCurrentMax = 60; //amps in SparkMax, max setting
+   * public static final int smartCurrentLimit = 35; //amps in SparkMax, inital
+   * setting
+   */
+  // Acceleration limits
+  /// public static final double slewRateMax = 2; //sec limits adjusting slewrate
+  // public static final boolean safetyEnabled = false;
+
+  // SmartMax PID values [kp, ki, kd, kff] - these get sent to hardware controller
+  // DEBUG - SET FF first for drive, then add KP
+
+  // public static final PIDFController drivePIDF = new
+  // PIDFController(0.09*MperFT, 0.0, 0.0, 0.08076*MperFT);
+  public static final PIDFController drivePIDF = new PIDFController(0.09 * FTperM, 0.0, 0.0, 0.08076 * FTperM);
+  public static final PIDFController anglePIDF = new PIDFController(0.01, 0.0, 0.0, 0.0); // maybe 1.0,0.0,0.1 from
+                                                                                          // SDS sample code?
+
+  // FOR SWERVEBOT, aka Tim 2.0
   public static final WheelOffsets swerveBotOffsets = new WheelOffsets(-98.942, 91.33, -177.035, -28.215);
-    public static final ChassisConfig swerveBotChassisConfig = new ChassisConfig(10.5 / 12, 10.5 / 12, 0.995,
-        99.5 / 1000.0, 12.8, 8.14); 
-        public static final PIDFController drivePIDF = new PIDFController(0.09 * FTperM, 0.0, 0.0, 0.08076 * FTperM);
-        public static final PIDFController anglePIDF = new PIDFController(0.01, 0.0, 0.0, 0.0);
-        public static final double kMaxSpeed = 21.0 * MperFT; // [m/s]
-        public static final double kMaxAngularSpeed = 2 * Math.PI; // [rad/s]
+  public static final ChassisConfig swerveBotChassisConfig = new ChassisConfig(10.5 / 12, 10.5 / 12, 0.995,
+      99.5 / 1000.0, 12.8, 8.14);
+
+  // FOR 2022 Chad Bot - degrees
+  public static final WheelOffsets chadBotOffsets = new WheelOffsets(-175.60, -115.40, -162.15, 158.81);
+  public static final ChassisConfig chadBotChassisConfig = new ChassisConfig(MperFT * (21.516 / 12.0) / 2.0,
+      MperFT * (24.87 / 12) / 2, 0.995, 99.5 / 1000.0, 12.8, 8.14);
+
+  // For 2023 CompetitionBot
+  public static final WheelOffsets compBotOffsets = new WheelOffsets(129.03, -83.94, -57.83, 139.38);
+  public static final ChassisConfig compBotChassisConfig = new ChassisConfig(
+      MperFT * (23.5 / 12.0) / 2.0, //based on CAD in reference_links
+      MperFT * (19.5 / 12.0) / 2.0, //based on CAD in reference_links
+      0.999, // scale [] <= 1.0
+      MperFT * (4.0/12.0), // wheel diameter[m] Comp bot is 4" wheels
+      12.8, //confirmed with vince
+      8.14); //confirmed with vince
+
 }
 public static final class DriverControls {
 
@@ -145,12 +226,23 @@ public static final class DriverControls {
     }
   }
 }
-public static final SubsystemConfig swerveBotSubsystemConfig = new SubsystemConfig(true);
+
 public static final ChassisInversionSpecs swerveBotChassisInversionSpecs = new ChassisInversionSpecs(
   new ModuleInversionSpecs(true,false,false), //FR
   new ModuleInversionSpecs(false,false,false), //FL
   new ModuleInversionSpecs(true,false,false), //BR
   new ModuleInversionSpecs(false,false,false)); //BL
+  public static final ChassisInversionSpecs chadBotChassisInversionSpecs = new ChassisInversionSpecs(
+    new ModuleInversionSpecs(true,false,false), //FR
+    new ModuleInversionSpecs(false,false,false), //FL
+    new ModuleInversionSpecs(true,false,false), //BR
+    new ModuleInversionSpecs(false,false,false)); //BL
+  
+  public static final ChassisInversionSpecs compBotChassisInversionSpecs = new ChassisInversionSpecs(
+    new ModuleInversionSpecs(true,false,false), //FR
+    new ModuleInversionSpecs(false,false,false), //FL
+    new ModuleInversionSpecs(true,false,false), //BR
+    new ModuleInversionSpecs(false,false,false)); //BL
 // Digital IO on the RIO
 //nothing atm 11/15/23
 public static final class DigitalIO {
@@ -179,4 +271,5 @@ public static final class PCM2 {
   }
 public static class LauncherConfiguration {
 }
+
 }
