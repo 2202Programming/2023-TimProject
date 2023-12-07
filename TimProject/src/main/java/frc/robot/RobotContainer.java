@@ -61,32 +61,38 @@ public class RobotContainer {
   public RobotContainer() {
     RobotContainer.rc = this; // for singleton accesor
     // TODO MrL - add the sub-system constructors here
-        sensors = new Sensors_Subsystem();
-        drivetrain = new SwerveDriveTrain();
+    robotSpecs = new RobotSpecs();
         //launcher = new Launcher();
         dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
-        robotSpecs = new RobotSpecs();
         photonVision = null;
-        driverIndividualBindings();
         switch (robotSpecs.myRobotName) {
           case USE_THIS:
-          launcher = new Launcher();
+          launcher = null;
+          sensors = null;
+          drivetrain = null;
             break;
     
           case SwerveBot:
-          launcher =null;
+          launcher = new Launcher();
+          sensors = new Sensors_Subsystem();
+          drivetrain = new SwerveDriveTrain();
             break;
     
           case ChadBot:
           launcher =null;
+          sensors = null;
+          drivetrain = null;
             break;
     
           case BotOnBoard: // fall through
           case UnknownBot: // fall through
           default:
           launcher =null;
+          sensors = null;
+          drivetrain = null;
             break;
         }
+        driverIndividualBindings();
         drivetrain.setDefaultCommand(new FieldCentricDrive(drivetrain));
         configureBindings(Bindings.Real);
   }

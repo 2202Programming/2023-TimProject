@@ -37,16 +37,18 @@ public class RobotSpecs {
     private SubsystemConfig mySubsystemConfig;
     private ChassisInversionSpecs myChassisInversionSpecs;
 
-    public RobotSpecs() {
-        this(System.getenv("serialnum"));
+    public RobotSpecs(String serialNo) {
+        // this(System.getenv("serialnum")); //
+        
+        myRobotName = RobotNames.SwerveBot;
     }
 
-    public RobotSpecs(String serialNo) {
-        myRobotName = getRobotName(serialNo);
+    public RobotSpecs() {
+        myRobotName = RobotNames.SwerveBot;
 
         // if we are simulated, use the competionBot so we have everything
         if (RobotBase.isSimulation()) {
-            myRobotName = RobotNames.USE_THIS;
+            myRobotName = RobotNames.SwerveBot;
         }
         // setup to handle any swerve both we have
         switch (myRobotName) {

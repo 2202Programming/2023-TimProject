@@ -27,9 +27,12 @@ public class ActivateLauncher extends CommandBase {
   @Override
   public void execute() {
     //new InstantCommand(() -> {
-      frisbee_flipper.speed(5);
+      System.out.println("reached");
+      frisbee_flipper.fire();
+
+      frisbee_flipper.speed(0.5);
   
-    if(frisbee_flipper.get_speed() == 5){
+    if(frisbee_flipper.get_speed() == 0.5){
        frisbee_flipper.fire();
       }
 

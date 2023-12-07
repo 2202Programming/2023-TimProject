@@ -25,6 +25,7 @@ public class DeActivateLauncher extends CommandBase {
   final Launcher frisbee_flipper = RobotContainer.RC().launcher;
   public DeActivateLauncher() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(frisbee_flipper);
   }
   // Called when the command is initially scheduled.
   @Override
