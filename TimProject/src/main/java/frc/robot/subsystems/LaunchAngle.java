@@ -6,12 +6,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-final CANSparkMax LinearAccuator = new CANSparkMax(, CANSparkMaxLowLevel.MotorType kBrushed);
+import frc.robot.Constants.CAN;
+
+
 
 public class LaunchAngle extends SubsystemBase {
+  CANSparkMax LinearAccuator = new CANSparkMax(CAN.ELEVATION_ACTUATOR, MotorType.kBrushed);
+
   /** Creates a new LaunchAngle. */
   public LaunchAngle() {}
 

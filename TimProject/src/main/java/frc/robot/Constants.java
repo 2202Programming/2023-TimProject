@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import frc.robot.Constants.SubsystemConfig;
 import frc.robot.util.ModuleInversionSpecs;
 import frc.robot.util.PIDFController;
 /**
@@ -26,7 +25,7 @@ public static final class CAN {
   public static final int PCM1 = 2; // for rev
   public static final int BACK_LAUNCH_MOTOR = 10; //Talon motor
   public static final int FRONT_LAUNCH_MOTOR = 11; //Talon motor
-  public static final int ELEVATION_ACTUATOR = 12;
+  public static final int ELEVATION_ACTUATOR = 12; //SparkMax 
   public static final int DT_FL_DRIVE = 20;
   public static final int DT_FL_ANGLE = 21;
   public static final int DT_BL_DRIVE = 22;

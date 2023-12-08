@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import static frc.robot.Constants.DT;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.SparkMaxPIDController;
 
@@ -22,7 +24,11 @@ public class PIDFController extends PIDController {
     SparkMaxPIDController sparkMaxController = null;
     double m_smartMaxVel = 0.1;
     double m_smartMaxAccel = .01;
+
+    final int kTimeoutMS = 30; //[mS]
+
     WPI_TalonSRX  talonController = null;
+    WPI_TalonFX  talonFXController = null;
 
     double m_Kf = 0.0;
     double m_izone = 0.0;
@@ -159,18 +165,29 @@ public class PIDFController extends PIDController {
 
 
     public void copyTo(WPI_TalonSRX dest, int slot ) {
-      dest.config_kP(slot, this.getP());
-      dest.config_kI(slot,this.getI());
-      dest.config_kD(slot, this.getD());
-      dest.config_kF(slot, this.getF());
-      dest.config_IntegralZone(slot, this.getIzone());
+      dest.config_kP(slot, this.getP(), kTimeoutMS);
+      dest.config_kI(slot,this.getI(), kTimeoutMS);
+      dest.config_kD(slot, this.getD(), kTimeoutMS);
+      dest.config_kF(slot, this.getF(), kTimeoutMS);
+      dest.config_IntegralZone(slot, this.getIzone(), kTimeoutMS);
       talonController = dest;
     }
+
+    public void copyTo(WPI_TalonFX dest, int slot ) {
+        dest.config_kP(slot, this.getP(), kTimeoutMS);
+        dest.config_kI(slot,this.getI(), kTimeoutMS);
+        dest.config_kD(slot, this.getD(), kTimeoutMS);
+        dest.config_kF(slot, this.getF(), kTimeoutMS);
+        dest.config_IntegralZone(slot, this.getIzone(), kTimeoutMS);
+        talonFXController = dest;
+      }
+  
 
     //easy call to update hardware after initial copyTo is done.
     public void updateHardware(int slot) {
         if (sparkMaxController != null) copyTo(sparkMaxController, slot, m_smartMaxVel, m_smartMaxAccel);
         if (talonController != null) copyTo(talonController, slot);
+        if (talonFXController != null) copyTo(talonFXController, slot);
     }
 
 }
