@@ -11,6 +11,7 @@ import frc.robot.commands.Launcher.ActivateLauncher;
 import frc.robot.commands.Launcher.DeActivateLauncher;
 import frc.robot.commands.swerve.FieldCentricDrive;
 import frc.robot.commands.swerve.RobotCentricDrive;
+import frc.robot.subsystems.LaunchAngle;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Sensors_Subsystem;
@@ -51,6 +52,8 @@ public class RobotContainer {
   public final Sensors_Subsystem sensors;
   public final SwerveDriveTrain drivetrain;
   public final Launcher launcher;
+  public final LaunchAngle launcherAngle;
+
   public final HID_Xbox_Subsystem dc; // short for driver controls
 
   public RobotContainer() {
@@ -60,24 +63,26 @@ public class RobotContainer {
     //Driver controls subsystem 
     dc = new HID_Xbox_Subsystem(0.3, 0.9, 0.05);
     photonVision = null;
-    switch (robotSpecs.myRobotName) {
-      case USE_THIS:
-        launcher = null;
-        sensors = null;
-        drivetrain = null;
-        break;
 
+    //this switch isn't really needed unless code base will run on different robots with diff configs like we
+    // did during 2023 early season.
+    switch (robotSpecs.myRobotName) {      
+      //we expect swerveBot - nothing else
       case SwerveBot:
-        launcher = new Launcher();
+        // ordered by desired run order of periodic() calls
         sensors = new Sensors_Subsystem();
-        drivetrain = new SwerveDriveTrain();
+        drivetrain = new SwerveDriveTrain(); 
+        launcher = new Launcher();
+        launcherAngle = new LaunchAngle();
         break;
-
+      
+      case USE_THIS:
       case ChadBot:
       case BotOnBoard: // fall through
       case UnknownBot: // fall through
       default:
         launcher = null;
+        launcherAngle = null;
         sensors = null;
         drivetrain = null;
         break;

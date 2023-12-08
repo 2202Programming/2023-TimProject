@@ -4,49 +4,53 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.math.controller;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
-
-import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AnalogIn;
 import frc.robot.Constants.CAN;
-import com.revrobotics.CANSparkMaxLowLevel;
 
 public class LaunchAngle extends SubsystemBase {
   private static final double kp = 1.0;
   private static final double ki = 0;
   private static final double kd = 0;
-  private static final double k = 6.0/5.0; //define later [in/volt]
-  CANSparkMax LinearAccuator = new CANSparkMax(CAN.ELEVATION_ACTUATOR, MotorType.kBrushed);
+  private static final double kINperVolt = 6.0 / 5.0; // define later [in/volt]
 
-  /** Creates a new LaunchAngle. */
-  final CANSparkMax angleMotor = new CANSparkMax(CAN.ELEVATION_ACTUATOR, CANSparkMaxLowLevel.MotorType.kBrushed);
-  final AnalogInput vPositionSensor = new AnalogInput(0); //[volts]
-  final PIDController pid = new PIDController(kp, ki, kd); //change these names later
-  private double distance = 0.0; //[in]
+  CANSparkMax angleMotor = new CANSparkMax(CAN.ELEVATION_ACTUATOR, MotorType.kBrushed);
+  final AnalogInput vPositionSensor = new AnalogInput(AnalogIn.LINEAR_ACTUATOR); // [volts]
+  final PIDController pid = new PIDController(kp, ki, kd); // change these names later
+  private double meas_distance = 0.0; // [in]
   private double distanceCmd = 0.0;
-  
 
   public LaunchAngle() {
-  
+    // read our power on position
+    meas_distance = vPositionSensor.getVoltage() * kINperVolt;
+    
+    //set the pid's tolerance once at construction
+    pid.setTolerance(0.2 /* [in] */, 0.1/* [in/sec] */); // best guess
   }
 
   @Override
   public void periodic() {
-    distance = vPositionSensor.getVoltage()*k;
-    double output = pid.calculate(distance, distanceCmd);
+    //below will be done in the robot-loop
+    // measure
+    meas_distance = vPositionSensor.getVoltage() * kINperVolt;
+
+    // calulate
+    double output = pid.calculate(meas_distance, distanceCmd);
+
+    // output
     angleMotor.set(output);
-    pid.setTolerance(5, 10); //stolen numbers
   }
 
-  public void setPoint(double point){
+  public void setPoint(double point) {
     distanceCmd = point;
   }
 
-  public boolean isAtPosition(){
+  public boolean isAtPosition() {
     return pid.atSetpoint();
   }
 }
